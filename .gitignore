@@ -1,0 +1,4 @@
+node_modules/
+uploads/
+fcm-service.json
+.env
