@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../fcm-service.json'); // your Firebase service account file
+// const serviceAccount = require('../fcm-service.json'); // your Firebase service account file
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 if (!admin.apps.length) {
     admin.initializeApp({
