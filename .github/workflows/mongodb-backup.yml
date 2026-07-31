@@ -2,7 +2,7 @@ name: Daily MongoDB Backup
 
 on:
   schedule:
-    - cron: "0 18 * * *" # 11:30 PM IST every day
+    - cron: "0 18 * * *" # 11:30 PM IST
   workflow_dispatch:
 
 jobs:
@@ -13,6 +13,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Verify Secrets
-        run: |
-          echo "Workflow started"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run MongoDB Backup
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: node scripts/backup.js
